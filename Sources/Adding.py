@@ -16,20 +16,3 @@ def adding(a, b):
             i += 1
         a.reverse()
         return str(''.join(a))
-
-
-def task():
-    a = int(input())
-    for i in range(a):
-        x, y = input().split(' ')
-        if len(x) > 9 or len(y) > 9:
-            a, b = list(x), list(y)
-            a.reverse()
-            b.reverse()
-        else:
-            a, b = int(x), int(y)
-        print(adding(a, b))
-
-
-if __name__ == "__main__":
-    task()
