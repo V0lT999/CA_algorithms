@@ -13,6 +13,7 @@ BINARY_SEARCH_ON_THE_RESULT_OUT = ["..\\tests\\binary-search-on-the-result-tests
 from Sources.Binary_search import ClassicalSearch
 from Sources.Adding import Adding
 from Sources.Binary_search import ResultSearch
+from Sources.Trees import DefaultTree
 
 logging.basicConfig(level=logging.INFO)
 
@@ -112,10 +113,14 @@ def binary_search_on_the_result_test():
         fout.close()
 
 
+def default_tree_test():
+    DefaultTree.try_some_functions()
+
+
 if __name__ == "__main__":
-    #classical_binary_search_test()
-    #adding_test()
+    """
+    classical_binary_search_test()
+    adding_test()
     binary_search_on_the_result_test()
-
-
-
+    """
+    default_tree_test()
