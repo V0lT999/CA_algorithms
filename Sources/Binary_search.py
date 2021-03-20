@@ -32,7 +32,7 @@ class ResultSearch:
         self.K = K
         self.mas = mas
 
-    def __check(self, lenght):
+    def _check(self, lenght):
         count = 1
         current_len = self.mas[0] + lenght
         for i in range(1, self.N):
@@ -49,7 +49,7 @@ class ResultSearch:
             return answer
         while True:
             middle = (left + right) // 2
-            if self.__check(middle):
+            if self._check(middle):
                 right = middle
                 answer = right
             else:

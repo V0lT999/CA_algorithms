@@ -1,19 +1,17 @@
 import logging
-
-CLASSICAL_BINARY_SEARCH_IN = ["..\\tests\\tests-bin-search" + f"\\{i}.in" for i in range(1, 6)]
-CLASSICAL_BINARY_SEARCH_OUT = ["..\\tests\\tests-bin-search" + f"\\{i}.out" for i in range(1, 6)]
-
-ADDING_IN = ["..\\tests\\tests-adding" + f"\\{i}.in" for i in range(1, 3)]
-ADDING_OUT = ["..\\tests\\tests-adding" + f"\\{i}.out" for i in range(1, 3)]
-
-BINARY_SEARCH_ON_THE_RESULT_IN = ["..\\tests\\binary-search-on-the-result-tests" + f"\\{i}.in" for i in range(1, 6)]
-BINARY_SEARCH_ON_THE_RESULT_OUT = ["..\\tests\\binary-search-on-the-result-tests" + f"\\{i}.out" for i in range(1, 6)]
-
-
 from Sources.Binary_search import ClassicalSearch
 from Sources.Adding import Adding
 from Sources.Binary_search import ResultSearch
 from Sources.Trees import DefaultTree
+
+CLASSICAL_BINARY_SEARCH_IN = [f"..\\tests\\tests-bin-search\\{i}.in" for i in range(1, 6)]
+CLASSICAL_BINARY_SEARCH_OUT = [f"..\\tests\\tests-bin-search\\{i}.out" for i in range(1, 6)]
+
+ADDING_IN = [f"..\\tests\\tests-adding\\{i}.in" for i in range(1, 3)]
+ADDING_OUT = [f"..\\tests\\tests-adding\\{i}.out" for i in range(1, 3)]
+
+BINARY_SEARCH_ON_THE_RESULT_IN = [f"..\\tests\\binary-search-on-the-result-tests\\{i}.in" for i in range(1, 6)]
+BINARY_SEARCH_ON_THE_RESULT_OUT = [f"..\\tests\\binary-search-on-the-result-tests\\{i}.out" for i in range(1, 6)]
 
 logging.basicConfig(level=logging.INFO)
 
@@ -118,9 +116,7 @@ def default_tree_test():
 
 
 if __name__ == "__main__":
-    """
     classical_binary_search_test()
     adding_test()
     binary_search_on_the_result_test()
-    """
     default_tree_test()
