@@ -2,7 +2,7 @@ import random
 from binary_tree.tree import *
 
 
-class DefaultTree():
+class DefaultTree:
     # @staticmethod
     # def try_some_functions():
     #
@@ -48,11 +48,15 @@ class DefaultTree():
 
 class Treap:
     class Node:
-        def __init__(self, value=0, priority=0):
+        def __init__(self, value=None, priority=None):
             self.value = value
-            self.priority = priority
+            if not priority:
+                self.priority = random.randint(1, 10000)
+            else:
+                self.priority = priority
             self.left = None
             self.right = None
+            # print(self.priority)
 
         def add_left(self, value, priority):
             self.left = Treap.Node(value, priority)
@@ -81,6 +85,35 @@ class Treap:
             root.right = Treap._building_tree(over_values, over_priorities)
         return root
 
+    @staticmethod
+    def _merge(a: Node, b: Node):
+        if not a or not b:
+            if not a:
+                return b
+            else:
+                return a
+        if a.priority > b.priority:
+            a.right = Treap._merge(a.right, b)
+            return a
+        else:
+            b.left = Treap._merge(a, b.left)
+            return b
+
+    @staticmethod
+    def _split(n: Node, key: int, a: Node, b: Node):
+        if not n:
+            a = b = None
+            return a, b
+        elif not n.value:
+            a = b = None
+            return a, b
+        if n.value < key:
+            n.right, b = Treap._split(n.right, key, n.right, b)
+            return n, b
+        else:
+            a, n.left = Treap._split(n.left, key, a, n.left)
+            return a, n
+
     def __init__(self, node_count: int):
         self.values = random.sample(range(0, node_count), node_count)
         self.priorities = random.sample(range(0, node_count), node_count)
@@ -107,3 +140,35 @@ class Treap:
                     output_nodes.append(f"r[{i}]({current.right.value}, {current.right.priority})")
             current_nodes = next_nodes
 
+    def contains(self, value: int, adding: bool):
+        # if not self.root:
+        #     return False
+        # current = self.root
+        # while True:
+        #     if current.value == value:
+        #         return True
+        #     if value < current.value:
+        #         if current.left:
+        #             current = current.left
+        #         else:
+        #             return False
+        #     else:
+        #         if current.right:
+        #             current = current.right
+        #         else:
+        #             return False
+        less, equal, greater = Treap.Node(), Treap.Node(), Treap.Node()
+        less, greater = Treap._split(self.root, value, less, greater)
+        equal, greater = Treap._split(greater, value + 1, equal, greater)
+        result = True
+        if not equal:
+            result = False
+        self.root = Treap._merge(Treap._merge(less, equal), greater)
+        if not equal and adding:
+            self.insert(value=value)
+        return result
+
+    def insert(self, value: int):
+        less, greater = Treap.Node(), Treap.Node()
+        less, greater = Treap._split(self.root, value, less, greater)
+        self.root = Treap._merge(Treap._merge(less, Treap.Node(value=value)), greater)
