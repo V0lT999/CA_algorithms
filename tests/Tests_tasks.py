@@ -2,7 +2,7 @@ import logging
 from Sources.Binary_search import ClassicalSearch
 from Sources.Adding import Adding
 from Sources.Binary_search import ResultSearch
-from Sources.Trees import DefaultTree
+from Sources.Trees import DefaultTree, Treap
 
 CLASSICAL_BINARY_SEARCH_IN = [f"..\\tests\\tests-bin-search\\{i}.in" for i in range(1, 6)]
 CLASSICAL_BINARY_SEARCH_OUT = [f"..\\tests\\tests-bin-search\\{i}.out" for i in range(1, 6)]
@@ -115,8 +115,14 @@ def default_tree_test():
     DefaultTree.try_some_functions()
 
 
+def treap_test():
+    treap = Treap(node_count=10)
+    treap.get_treap()
+
+
 if __name__ == "__main__":
-    classical_binary_search_test()
-    adding_test()
-    binary_search_on_the_result_test()
-    default_tree_test()
+    # classical_binary_search_test()
+    # adding_test()
+    # binary_search_on_the_result_test()
+    # default_tree_test()
+    treap_test()
