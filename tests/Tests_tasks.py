@@ -13,6 +13,9 @@ ADDING_OUT = [f"..\\tests\\tests-adding\\{i}.out" for i in range(1, 3)]
 BINARY_SEARCH_ON_THE_RESULT_IN = [f"..\\tests\\binary-search-on-the-result-tests\\{i}.in" for i in range(1, 6)]
 BINARY_SEARCH_ON_THE_RESULT_OUT = [f"..\\tests\\binary-search-on-the-result-tests\\{i}.out" for i in range(1, 6)]
 
+SEARCH_TREES_IN = [f"..\\tests\\search-trees-tests\\{i}.in" for i in range(1, 7)]
+SEARCH_TREES_CONTAINS_OUT = [f"..\\tests\\search-trees-tests\\{i}.contains.out" for i in range(1, 7)]
+
 logging.basicConfig(level=logging.INFO)
 
 
@@ -112,7 +115,25 @@ def binary_search_on_the_result_test():
 
 
 def default_tree_test():
-    DefaultTree.try_some_functions()
+    log = logging.getLogger("DefaultTree")
+    for file_id in range(len(SEARCH_TREES_IN)):
+        tree = DefaultTree()
+        tree.get_tree()
+        log.info(f"Contains test {file_id + 1}...")
+        fin = open(SEARCH_TREES_IN[file_id], "r")
+        fout = open(SEARCH_TREES_CONTAINS_OUT[file_id], "r")
+        n = int(fin.readline())
+        flag = True
+        for i in range(n):
+            value = int(fin.readline())
+            answer = fout.readline().replace("\n", "")
+            if tree.proof_node(value) != answer:
+                flag = False
+                log.info(f"Test {file_id + 1} failed: expected {answer}, on the value {value}, "
+                         f"number of value: {i + 1}")
+                break
+        if flag:
+            log.info(f"Test {file_id + 1} passed!")
 
 
 def treap_test():
@@ -124,5 +145,5 @@ if __name__ == "__main__":
     # classical_binary_search_test()
     # adding_test()
     # binary_search_on_the_result_test()
-    # default_tree_test()
-    treap_test()
+    default_tree_test()
+    # treap_test()

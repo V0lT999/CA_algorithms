@@ -2,20 +2,48 @@ import random
 from binary_tree.tree import *
 
 
-class DefaultTree:
-    @staticmethod
-    def try_some_functions():
+class DefaultTree():
+    # @staticmethod
+    # def try_some_functions():
+    #
+    #     min_range = 1
+    #     max_range = 10
+    #     rand = random.randint(min_range, max_range)
+    #     length = 5
+    #     array = random.sample(range(min_range, max_range), length)
+    #     print("Generated list is: ", array)
+    #     t = tree(array)
+    #     print("Binary tree is: ", t.traverse())
+    #     el = rand
+    #     print(f"The search of element {el} in the tree: ", t.search(el))
 
-        min_range = 1
-        max_range = 10
-        rand = random.randint(min_range, max_range)
-        length = 5
-        array = random.sample(range(min_range, max_range), length)
-        print("Generated list is: ", array)
-        t = tree(array)
-        print("Binary tree is: ", t.traverse())
-        el = rand
-        print(f"The search of element {el} in the tree: ", t.search(el))
+    def __init__(self, node_count: int = 0):
+        if node_count:
+            array = random.sample(range(0, node_count * 3), node_count)
+        else:
+            array = [None]
+        self.tree = tree(array)
+
+    def get_tree(self):
+        if self.tree.root.n:
+            print(self.tree.traverse())
+
+    def proof_node(self, value: int):
+        if self.tree.root.n:
+            if self.tree.search(value):
+                return "+"
+            else:
+                self.add_node(value)
+                return "-"
+        else:
+            self.add_node(value)
+            return "-"
+
+    def add_node(self, value: int):
+        if not self.tree.root.n:
+            self.tree = tree([value])
+        else:
+            self.tree.addNode(value)
 
 
 class Treap:
@@ -53,7 +81,7 @@ class Treap:
             root.right = Treap._building_tree(over_values, over_priorities)
         return root
 
-    def __init__(self, node_count):
+    def __init__(self, node_count: int):
         self.values = random.sample(range(0, node_count), node_count)
         self.priorities = random.sample(range(0, node_count), node_count)
         if node_count != 0:
@@ -78,3 +106,4 @@ class Treap:
                     next_nodes.append(current.right)
                     output_nodes.append(f"r[{i}]({current.right.value}, {current.right.priority})")
             current_nodes = next_nodes
+
