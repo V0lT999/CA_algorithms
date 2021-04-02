@@ -16,6 +16,7 @@ BINARY_SEARCH_ON_THE_RESULT_OUT = [f"..\\tests\\binary-search-on-the-result-test
 
 SEARCH_TREES_IN = [f"..\\tests\\search-trees-tests\\{i}.in" for i in range(1, 8)]
 SEARCH_TREES_CONTAINS_OUT = [f"..\\tests\\search-trees-tests\\{i}.contains.out" for i in range(1, 8)]
+SEARCH_TREES_CONTAINS_NEXT_OUT = [f"..\\tests\\search-trees-tests\\{i}.min-after.out" for i in range(1, 8)]
 
 logging.basicConfig(level=logging.INFO)
 
@@ -137,8 +138,8 @@ def default_tree_test():
             log.info(f"Test {file_id + 1} passed!")
 
 
-def treap_test():
-    log = logging.getLogger("Treap")
+def treap_contains_test():
+    log = logging.getLogger("Treap_contains")
     for file_id in range(len(SEARCH_TREES_IN)):
         treap = Treap(node_count=0)
         treap.get_treap()
@@ -162,9 +163,33 @@ def treap_test():
             log.info(f"Test {file_id + 1} passed!")
 
 
+def treap_contains_next_test():
+    log = logging.getLogger("Treap_contains_next")
+    for file_id in range(len(SEARCH_TREES_IN)):
+        treap = Treap(node_count=0)
+        treap.get_treap()
+        log.info(f"Contains test {file_id + 1}...")
+        fin = open(SEARCH_TREES_IN[file_id], "r")
+        fout = open(SEARCH_TREES_CONTAINS_NEXT_OUT[file_id], "r")
+        n = int(fin.readline())
+        flag = True
+        for i in tqdm(range(n)):
+            value = int(fin.readline())
+            answer = fout.readline().replace("\n", "")
+            result = treap.contains_next(value)
+            if result != answer:
+                flag = False
+                log.info(f"Test {file_id + 1} failed: expected {answer}, on the value {value}, "
+                         f"number of value: {i + 1}. Were got: {result}")
+                break
+        if flag:
+            log.info(f"Test {file_id + 1} passed!")
+
+
 if __name__ == "__main__":
-    classical_binary_search_test()
-    adding_test()
-    binary_search_on_the_result_test()
+    # classical_binary_search_test()
+    # adding_test()
+    # binary_search_on_the_result_test()
     # default_tree_test()
-    treap_test()
+    # treap_contains_test()
+    treap_contains_next_test()

@@ -56,7 +56,12 @@ class Treap:
                 self.priority = priority
             self.left = None
             self.right = None
-            # print(self.priority)
+
+        def copy(self):
+            node = Treap.Node(self.value, self.priority)
+            node.left = self.left
+            node.right = self.right
+            return node
 
         def add_left(self, value, priority):
             self.left = Treap.Node(value, priority)
@@ -141,22 +146,6 @@ class Treap:
             current_nodes = next_nodes
 
     def contains(self, value: int, adding: bool):
-        # if not self.root:
-        #     return False
-        # current = self.root
-        # while True:
-        #     if current.value == value:
-        #         return True
-        #     if value < current.value:
-        #         if current.left:
-        #             current = current.left
-        #         else:
-        #             return False
-        #     else:
-        #         if current.right:
-        #             current = current.right
-        #         else:
-        #             return False
         less, equal, greater = Treap.Node(), Treap.Node(), Treap.Node()
         less, greater = Treap._split(self.root, value, less, greater)
         equal, greater = Treap._split(greater, value + 1, equal, greater)
@@ -172,3 +161,15 @@ class Treap:
         less, greater = Treap.Node(), Treap.Node()
         less, greater = Treap._split(self.root, value, less, greater)
         self.root = Treap._merge(Treap._merge(less, Treap.Node(value=value)), greater)
+
+    def contains_next(self, value: int):
+        have = "+" if self.contains(value, True) else "-"
+        less, greater, equal = Treap.Node(), Treap.Node(), Treap.Node()
+        less, greater = Treap._split(self.root, value, less, greater)
+        equal, greater = Treap._split(greater, value + 1, equal, greater)
+        next = greater.copy() if greater else None
+        while next and next.left:
+            next = next.left
+        have_next = str(next.value) if next else "-"
+        self.root = Treap._merge(Treap._merge(less, equal), greater)
+        return have + ' ' + str(have_next)
