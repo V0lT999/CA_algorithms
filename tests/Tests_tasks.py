@@ -3,6 +3,9 @@ from Sources.Binary_search import ClassicalSearch
 from Sources.Adding import Adding
 from Sources.Binary_search import ResultSearch
 from Sources.Trees import DefaultTree, Treap
+from Sources.DSU import DSU
+from glob import glob
+import os
 from tqdm import tqdm
 
 CLASSICAL_BINARY_SEARCH_IN = [f"..\\tests\\tests-bin-search\\{i}.in" for i in range(1, 6)]
@@ -18,7 +21,21 @@ SEARCH_TREES_IN = [f"..\\tests\\search-trees-tests\\{i}.in" for i in range(1, 8)
 SEARCH_TREES_CONTAINS_OUT = [f"..\\tests\\search-trees-tests\\{i}.contains.out" for i in range(1, 8)]
 SEARCH_TREES_CONTAINS_NEXT_OUT = [f"..\\tests\\search-trees-tests\\{i}.min-after.out" for i in range(1, 8)]
 
+
 logging.basicConfig(level=logging.INFO)
+
+
+def get_files_for_dsu(format: str) -> list:
+    directory = "..\\tests\\dsu-in-one-subset-tests"
+    files = os.listdir(directory)
+
+    # variable = list(filter(lambda x: x.endswith(format), files))
+    variable = list(glob(os.path.join(directory, format)))
+    return variable
+
+
+DSU_IN_ONE_SUBSET_IN = get_files_for_dsu('*.in')
+DSU_IN_ONE_SUBSET_OUT = get_files_for_dsu('*.out')
 
 
 def classical_binary_search_test():
@@ -186,10 +203,35 @@ def treap_contains_next_test():
             log.info(f"Test {file_id + 1} passed!")
 
 
+def dsu_is_one_subset_test():
+    log = logging.getLogger("dsu_is_one_subset")
+    for file_id in range(len(DSU_IN_ONE_SUBSET_IN)):
+        log.info(f"Contains test {file_id + 1} ({DSU_IN_ONE_SUBSET_IN[file_id]})...")
+        fin = open(DSU_IN_ONE_SUBSET_IN[file_id], "r")
+        fout = open(DSU_IN_ONE_SUBSET_OUT[file_id], "r")
+        data = fin.readline().split(' ')
+        n, m = int(data[0]), int(data[1])
+        dsu = DSU(n)
+        flag = True
+        for i in tqdm(range(m)):
+            data = fin.readline().split(' ')
+            x, y = int(data[0]), int(data[1])
+            answer = fout.readline().replace("\n", "")
+            result = dsu.is_one_subset(x, y)
+            if result != answer:
+                flag = False
+                log.info(f"Test {file_id + 1} failed: expected {answer}, on the values {x, y}, "
+                         f"number of value: {i + 1}. Were got: {result}")
+                break
+        if flag:
+            log.info(f"Test {file_id + 1} passed!")
+
+
 if __name__ == "__main__":
     # classical_binary_search_test()
     # adding_test()
     # binary_search_on_the_result_test()
     # default_tree_test()
     # treap_contains_test()
-    treap_contains_next_test()
+    # treap_contains_next_test()
+    dsu_is_one_subset_test()
