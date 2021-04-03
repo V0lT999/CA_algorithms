@@ -1,12 +1,4 @@
-import logging
-from Sources.Binary_search import ClassicalSearch
-from Sources.Adding import Adding
-from Sources.Binary_search import ResultSearch
-from Sources.Trees import DefaultTree, Treap
-from Sources.DSU import DSU
-from glob import glob
-import os
-from tqdm import tqdm
+from Sources import *
 
 CLASSICAL_BINARY_SEARCH_IN = [f"..\\tests\\tests-bin-search\\{i}.in" for i in range(1, 6)]
 CLASSICAL_BINARY_SEARCH_OUT = [f"..\\tests\\tests-bin-search\\{i}.out" for i in range(1, 6)]
